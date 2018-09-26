@@ -20,8 +20,10 @@ class AdminMenuWidget extends Widget
         if ($list = $this->_getList()) {
             foreach ($list as $menuSlug => $menu) {
                 if (isset($menu['label']) && !empty($menu['label'])) {
+                    $classes = $this->_getMenuItemClasses($menuSlug);
+
                     $html .= $this->_beforeMenuItem($menuSlug);
-                    $html .= Html::a($this->_getMenuItemText($menu), Url::toRoute("{$menuSlug}/index"), ['class' => 'waves-effect']);
+                    $html .= Html::a($this->_getMenuItemText($menu), Url::toRoute("{$menuSlug}/index"), ['class' => $classes]);
                     $html .= $this->_afterMenuItem();
                 }
             }
@@ -37,15 +39,17 @@ class AdminMenuWidget extends Widget
         return [
             'site' => ['icon' => 'fa fa-home fa-fw', 'label' => \Yii::t('app', 'Dashboard')],
             'posts' => ['icon' => 'fa fa-pencil-square-o fa-fw', 'label' => \Yii::t('app', 'Posts')],
-            'post-meta' => ['icon' => 'fa  fa-list-alt fa-fw', 'label' => \Yii::t('app', 'Post meta')],
+            'category' => ['icon' => 'fa fa-archive fa-fw', 'label' => \Yii::t('app', 'Category')],
             'comments' => ['icon' => 'fa fa-comments fa-fw', 'label' => \Yii::t('app', 'Comments')],
-            'comment-meta' => ['icon' => 'fa fa-comments-o fa-fw', 'label' => \Yii::t('app', 'Comment meta')],
-            'terms' => ['icon' => 'fa fa-archive fa-fw', 'label' => \Yii::t('app', 'Terms')],
-            'term-taxonomy' => ['icon' => 'fa fa-cubes fa-fw', 'label' => \Yii::t('app', 'Term taxonomy')],
-            'term-relationships' => ['icon' => 'fa fa-code-fork fa-fw', 'label' => \Yii::t('app', 'Term Relationships')],
-            'term-meta' => ['icon' => 'fa fa-clipboard fa-fw', 'label' => \Yii::t('app', 'Term meta')],
-            'user-meta' => ['icon' => 'fa fa-user-md fa-fw', 'label' => \Yii::t('app', 'User meta')],
             'options' => ['icon' => 'fa fa-cog fa-fw', 'label' => \Yii::t('app', 'Options')],
+
+            # 'comment-meta' => ['icon' => 'fa fa-comments-o fa-fw', 'label' => \Yii::t('app', 'Comment meta')],
+            # 'post-meta' => ['icon' => 'fa  fa-list-alt fa-fw', 'label' => \Yii::t('app', 'Post meta')],
+            # 'terms' => ['icon' => 'fa fa-archive fa-fw', 'label' => \Yii::t('app', 'Terms')],
+            # 'term-taxonomy' => ['icon' => 'fa fa-cubes fa-fw', 'label' => \Yii::t('app', 'Term taxonomy')],
+            # 'term-relationships' => ['icon' => 'fa fa-code-fork fa-fw', 'label' => \Yii::t('app', 'Term Relationships')],
+            # 'term-meta' => ['icon' => 'fa fa-clipboard fa-fw', 'label' => \Yii::t('app', 'Term meta')],
+            # 'user-meta' => ['icon' => 'fa fa-user-md fa-fw', 'label' => \Yii::t('app', 'User meta')],
         ];
     }
 
@@ -90,5 +94,15 @@ class AdminMenuWidget extends Widget
         $html .= $menuItem['label'];
 
         return $html;
+    }
+
+    private function _getMenuItemClasses($menuSlug)
+    {
+        $classes[] = 'waves-effect';
+        if ($menuSlug === \Yii::$app->controller->id) {
+            $classes[] = 'active';
+        }
+
+        return implode(' ', $classes);
     }
 }

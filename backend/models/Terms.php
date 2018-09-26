@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "terms".
@@ -30,6 +31,7 @@ class Terms extends \yii\db\ActiveRecord
         return [
             [['term_group'], 'integer'],
             [['name', 'slug'], 'string', 'max' => 255],
+            [['slug'], 'unique']
         ];
     }
 
@@ -53,5 +55,17 @@ class Terms extends \yii\db\ActiveRecord
     public static function find()
     {
         return new TermsQuery(get_called_class());
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'immutable' => true,
+                'ensureUnique' => true
+            ]
+        ];
     }
 }
