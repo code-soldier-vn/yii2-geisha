@@ -15,6 +15,7 @@ use yii\web\NotFoundHttpException;
  * @property string $taxonomy
  * @property string $description
  * @property int $parent
+ * @property int $level
  * @property int $count
  */
 class TermTaxonomy extends \yii\db\ActiveRecord
@@ -51,6 +52,7 @@ class TermTaxonomy extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'parent' => Yii::t('app', 'Parent'),
             'count' => Yii::t('app', 'Count'),
+            'level' => Yii::t('app', 'Level'),
         ];
     }
 
@@ -94,5 +96,27 @@ class TermTaxonomy extends \yii\db\ActiveRecord
                 }
             ]
         ];
+    }
+
+    public function countUp($parentId = '')
+    {
+        $this->_updateCount($parentId);
+    }
+
+    public function countDown($parentId = '')
+    {
+        $this->_updateCount($parentId, -1);
+    }
+
+    protected function _updateCount($parentId = 0, $val = 1)
+    {
+        if (empty($parentId)) {
+            $parentId = $this->parent;
+        }
+
+        if ($parent = TermTaxonomy::findOne(['term_id' => $parentId])) {
+            $parent->count += $val;
+            $parent->save();
+        }
     }
 }

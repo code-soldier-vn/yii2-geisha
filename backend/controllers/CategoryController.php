@@ -151,15 +151,25 @@ class CategoryController extends Controller
      */
     protected function save(Terms $terms, TermTaxonomy $taxonomy)
     {
+        $isUpdating = $terms->term_id;
+        $oldParentId = $taxonomy->parent;
+
         if ($terms->load(Yii::$app->request->post()) && $terms->save()) {
 
             $taxonomy->load(Yii::$app->request->post());
             $taxonomy->term_id = $taxonomy->term_id ? $taxonomy->term_id : $terms->term_id;
             $taxonomy->taxonomy = $taxonomy->taxonomy ? $taxonomy->taxonomy : 'category';
 
-            if ($taxonomy->validate()) {
-                $taxonomy->save();
+            if ($isUpdating) {
+                if ($oldParentId && $oldParentId != $taxonomy->parent) {
+                    $taxonomy->countDown($oldParentId);
+                    $taxonomy->countUp();
+                }
+            } else {
+                $taxonomy->countUp();
             }
+
+            $taxonomy->save();
 
             return $this->redirect(['view', 'id' => $terms->term_id]);
         }
