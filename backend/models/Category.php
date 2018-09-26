@@ -14,7 +14,8 @@ use Yii;
  */
 class Category extends Terms
 {
-
+    public static $flatList;
+    public static $treeList;
 
     /**
      * {@inheritdoc}
@@ -33,4 +34,28 @@ class Category extends Terms
     {
         return new CategoryQuery(get_called_class());
     }
+
+    public static function getFlatList(Terms $term = null)
+    {
+        if (!isset(self::$flatList)) {
+            $categories = self::find()
+                ->select(['terms.term_id', 'name', 'parent'])
+                ->innerJoin(['tax' => TermTaxonomy::tableName()], 'terms.term_id = tax.term_id')
+                ->orderBy('tax.parent')
+                ->asArray()
+                ->all();
+
+            if (count($categories)) {
+                foreach ($categories as $category) {
+                    self::$flatList[$category['term_id']] = $category;
+                }
+            } else {
+                self::$flatList = [];
+            }
+        }
+
+        return self::$flatList;
+    }
+
+    
 }
