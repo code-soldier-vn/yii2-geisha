@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($terms, 'slug')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($taxonomy, 'parent')->textInput() ?>
+    <?= $form->field($taxonomy, 'parent')->dropDownList(\backend\models\Category::getTreeList($terms, $taxonomy)) ?>
 
     <?= $form->field($taxonomy, 'description')->textarea(['rows' => 6]) ?>
 

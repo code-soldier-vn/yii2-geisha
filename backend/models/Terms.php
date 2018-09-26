@@ -68,4 +68,9 @@ class Terms extends \yii\db\ActiveRecord
             ]
         ];
     }
+
+    public function getTaxonomy()
+    {
+        return $this->hasOne(TermTaxonomy::className(), ['term_id' => 'term_id']);
+    }
 }

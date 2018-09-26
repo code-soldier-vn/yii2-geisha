@@ -3,6 +3,9 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "term_taxonomy".
@@ -58,5 +61,38 @@ class TermTaxonomy extends \yii\db\ActiveRecord
     public static function find()
     {
         return new TermTaxonomyQuery(get_called_class());
+    }
+
+    public function getTerm()
+    {
+        return $this->hasOne(Terms::className(), ['term_id' => 'term_id']);
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['level'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['level'],
+                ],
+                'value' => function () {
+                    $level = 0;
+                    if ('category' === $this->taxonomy) {
+                        try {
+                            if ($parent = TermTaxonomy::findOne(['term_id' => $this->parent])) {
+                                /** @var TermTaxonomy $parent */
+                                $level = (int)$parent->level + 1;
+                            }
+                        } catch (NotFoundHttpException $e) {
+                            // Ignore this exception.
+                        }
+                    }
+
+                    return $level;
+                }
+            ]
+        ];
     }
 }
