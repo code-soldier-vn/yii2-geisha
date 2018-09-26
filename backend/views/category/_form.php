@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dosamigos\ckeditor\CKEditor;
 
 /* @var $this yii\web\View */
 /* @var $terms backend\models\Category */
@@ -19,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($taxonomy, 'parent')->dropDownList(\backend\models\Category::getTreeList($terms, $taxonomy)) ?>
 
-    <?= $form->field($taxonomy, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($taxonomy, 'description')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'preset' => 'standard']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

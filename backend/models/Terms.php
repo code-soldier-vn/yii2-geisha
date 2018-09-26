@@ -12,6 +12,7 @@ use yii\behaviors\SluggableBehavior;
  * @property string $name
  * @property string $slug
  * @property int $term_group
+ * @property TermTaxonomy $taxonomy
  */
 class Terms extends \yii\db\ActiveRecord
 {

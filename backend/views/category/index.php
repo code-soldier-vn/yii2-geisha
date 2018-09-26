@@ -11,10 +11,6 @@ $this->title = Yii::t('app', 'Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
-
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?= Html::a(Yii::t('app', 'Create Category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -28,8 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'term_id',
             'name',
             'slug',
-            'term_group',
-
+            [
+                'attribute' => 'count',
+                'content' => function (\backend\models\Category $model, $id) {
+                    return $model->taxonomy->count;
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
