@@ -23,7 +23,6 @@ class AppAsset extends AssetBundle
         'theme/css/colors/default.css'
     ];
     public $js = [
-        'theme/plugins/jquery/dist/jquery.min.js',
         'theme/bootstrap/dist/js/bootstrap.min.js',
         'theme/plugins/sidebar-nav/dist/sidebar-nav.min.js',
         'theme/js/jquery.slimscroll.js',
@@ -38,7 +37,7 @@ class AppAsset extends AssetBundle
         'theme/plugins/toast-master/js/jquery.toast.js',
     ];
     public $depends = [
-//        'yii\web\YiiAsset'
+        'yii\web\YiiAsset'
     ];
 }
 
