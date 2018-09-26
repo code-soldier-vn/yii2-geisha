@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="term-meta-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->meta_id], ['class' => 'btn btn-primary']) ?>

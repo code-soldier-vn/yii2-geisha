@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="term-relationships-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->object_id], ['class' => 'btn btn-primary']) ?>

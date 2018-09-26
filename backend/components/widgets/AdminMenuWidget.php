@@ -35,17 +35,17 @@ class AdminMenuWidget extends Widget
     private function _getList()
     {
         return [
-            'site' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Dashboard')],
-            'posts' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Posts')],
-            'post-meta' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Post meta')],
-            'comments' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Comments')],
-            'comment-meta' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Comment meta')],
-            'terms' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Terms')],
-            'term-taxonomy' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Term taxonomy')],
-            'term-relationships' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Term Relationships')],
-            'term-meta' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Term meta')],
-            'user-meta' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'User meta')],
-            'options' => ['icon' => 'fa fa-circle-o fa-fw', 'label' => \Yii::t('app', 'Options')],
+            'site' => ['icon' => 'fa fa-home fa-fw', 'label' => \Yii::t('app', 'Dashboard')],
+            'posts' => ['icon' => 'fa fa-pencil-square-o fa-fw', 'label' => \Yii::t('app', 'Posts')],
+            'post-meta' => ['icon' => 'fa  fa-list-alt fa-fw', 'label' => \Yii::t('app', 'Post meta')],
+            'comments' => ['icon' => 'fa fa-comments fa-fw', 'label' => \Yii::t('app', 'Comments')],
+            'comment-meta' => ['icon' => 'fa fa-comments-o fa-fw', 'label' => \Yii::t('app', 'Comment meta')],
+            'terms' => ['icon' => 'fa fa-archive fa-fw', 'label' => \Yii::t('app', 'Terms')],
+            'term-taxonomy' => ['icon' => 'fa fa-cubes fa-fw', 'label' => \Yii::t('app', 'Term taxonomy')],
+            'term-relationships' => ['icon' => 'fa fa-code-fork fa-fw', 'label' => \Yii::t('app', 'Term Relationships')],
+            'term-meta' => ['icon' => 'fa fa-clipboard fa-fw', 'label' => \Yii::t('app', 'Term meta')],
+            'user-meta' => ['icon' => 'fa fa-user-md fa-fw', 'label' => \Yii::t('app', 'User meta')],
+            'options' => ['icon' => 'fa fa-cog fa-fw', 'label' => \Yii::t('app', 'Options')],
         ];
     }
 
@@ -84,7 +84,7 @@ class AdminMenuWidget extends Widget
         $html = '';
 
         if (isset($menuItem['icon']) && !empty($menuItem['icon'])) {
-            $html .= sprintf('<i class="" aria-hidden="true"></i>', $menuItem['icon']);
+            $html .= sprintf('<i class="%s" aria-hidden="true"></i>', $menuItem['icon']);
         }
 
         $html .= $menuItem['label'];
