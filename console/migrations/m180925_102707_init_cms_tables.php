@@ -47,7 +47,7 @@ class m180925_102707_init_cms_tables extends Migration
         $this->dropTable("{{%term_taxonomy}}");
         $this->dropTable("{{%term_meta}}");
         $this->dropTable("{{%terms}}");
-        $this->dropTable("{{%usermeta}}");
+        $this->dropTable("{{%user_meta}}");
     }
 
     private function _createTblCommentMeta()

@@ -6,10 +6,8 @@
                 <span class="hide-menu">Navigation</span>
             </h3>
         </div>
-        <ul class="nav" id="side-menu">
-            <li style="padding: 70px 0 0;">
-                <a href="/" class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>Dashboard</a>
-            </li>
-        </ul>
+
+        <?= \backend\components\widgets\AdminMenuWidget::widget(); ?>
+
     </div>
 </div>
