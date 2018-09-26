@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+
 <div class="post-meta-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -18,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'meta_value')->textarea(['rows' => 6]) ?>
 
-    <div class="form-group">
+    <div class="form-group ">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 

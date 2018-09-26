@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\PostMeta;
 use backend\models\PostMetaSearch;
+use yii\base\Module;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,6 +15,12 @@ use yii\filters\VerbFilter;
  */
 class PostMetaController extends Controller
 {
+    public function __construct($id, Module $module, array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->layout = 'white-box';
+    }
+
     /**
      * {@inheritdoc}
      */
