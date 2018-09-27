@@ -80,7 +80,7 @@ class CategoryController extends Controller
             return $response;
         }
 
-        return $this->render('update', [
+        return $this->render('create', [
             'terms' => $terms,
             'taxonomy' => $taxonomy,
         ]);
@@ -119,10 +119,16 @@ class CategoryController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $category = $this->findModel($id);
+        $taxonomy = TermTaxonomy::findOne(['term_id' => $id]);
 
-        if ($taxonomy = TermTaxonomy::findOne(['term_id' => $id])) {
-            $taxonomy->delete();
+        if ($category && $taxonomy) {
+            if ($taxonomy->count) {
+                \Yii::$app->session->setFlash('error', 'This category has child, cannot delete!');
+            } else {
+                $category->delete();
+                $taxonomy->delete();
+            }
         }
 
         return $this->redirect(['index']);

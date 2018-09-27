@@ -5,11 +5,14 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $terms backend\models\Category */
-/* @var $taxonomy backend\models\TermTaxonomy $taxonomy*/
+/* @var $taxonomy backend\models\TermTaxonomy $taxonomy */
 
 $this->title = Yii::t('app', 'Create Category');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
+if ($this->title) {
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
+    $this->params['breadcrumbs'][] = $this->title;
+}
 ?>
 <div class="category-create">
 

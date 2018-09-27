@@ -18,7 +18,12 @@ use dosamigos\ckeditor\CKEditor;
 
     <?= $form->field($terms, 'slug')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($taxonomy, 'parent')->dropDownList(\backend\models\Category::getTreeList($terms, $taxonomy)) ?>
+    <?php
+    $options = new \backend\components\grid\terms\column\data\TermsAsTree($terms, $taxonomy);
+    $data = $options->getData();
+
+    echo $form->field($taxonomy, 'parent')->dropDownList($data);
+    ?>
 
     <?= $form->field($taxonomy, 'description')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'preset' => 'standard']) ?>
 

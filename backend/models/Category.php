@@ -17,8 +17,7 @@ use yii\web\NotFoundHttpException;
  */
 class Category extends Terms
 {
-    public static $flatList;
-    public static $treeList;
+    public static $cache;
 
     /**
      * {@inheritdoc}
@@ -40,20 +39,24 @@ class Category extends Terms
 
     public static function getFlatList(Terms $term = null, TermTaxonomy $taxonomy = null)
     {
-        if (!isset(self::$flatList)) {
+        if (!isset(self::$cache)) {
             self::buildTermsList($term, $taxonomy);
         }
 
-        return self::$flatList;
+        $flatList = [];
+
+        if (self::$cache) {
+            foreach (self::$cache as $catId => $cat) {
+                $flatList[$catId] = $cat['name'];
+            }
+        }
+
+        return $flatList;
     }
 
     public static function getTreeList(Terms $term = null, TermTaxonomy $taxonomy = null)
     {
-        if (!isset(self::$treeList)) {
-            self::buildTermsList($term, $taxonomy);
-        }
-
-        return self::$treeList;
+        $categories = self::getFlatList($term, $taxonomy);
     }
 
     protected static function buildTermsList(Terms $term = null, TermTaxonomy $taxonomy = null)
@@ -67,7 +70,7 @@ class Category extends Terms
             $categories->where("terms.term_id <> {$term->term_id}");
         }
 
-        if ($taxonomy && $taxonomy->term_id) {
+        if ($taxonomy && $taxonomy->term_id && $taxonomy->count) {
             $categories->andWhere("level < {$taxonomy->level}");
         }
 
@@ -75,12 +78,10 @@ class Category extends Terms
 
         if (count($categories)) {
             foreach ($categories as $category) {
-                self::$flatList[$category['term_id']] = $category['name'];
-                self::$treeList[$category['term_id']] = str_repeat('- ', (int)$category['level']) . $category['name'];
+                self::$cache[$category['term_id']] = $category;
             }
         } else {
-            self::$flatList = [];
-            self::$treeList = [];
+            self::$cache = [];
         }
     }
 }
