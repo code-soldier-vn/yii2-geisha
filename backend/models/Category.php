@@ -64,10 +64,11 @@ class Category extends Terms
         $categories = self::find()
             ->select(['terms.term_id', 'name', 'level'])
             ->innerJoin(['tax' => TermTaxonomy::tableName()], 'terms.term_id = tax.term_id')
+            ->where("taxonomy = 'category'")
             ->orderBy('tax.parent, tax.level');
 
         if ($term && $term->term_id) {
-            $categories->where("terms.term_id <> {$term->term_id}");
+            $categories->andWhere("terms.term_id <> {$term->term_id}");
         }
 
         if ($taxonomy && $taxonomy->term_id && $taxonomy->count) {

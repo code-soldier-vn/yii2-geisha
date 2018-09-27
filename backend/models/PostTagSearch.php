@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Category;
+use backend\models\PostTag;
 
 /**
- * CategorySearch represents the model behind the search form of `backend\models\Category`.
+ * PostTagSearch represents the model behind the search form of `backend\models\PostTag`.
  */
-class CategorySearch extends Category
+class PostTagSearch extends PostTag
 {
     /**
      * {@inheritdoc}
@@ -41,11 +41,11 @@ class CategorySearch extends Category
      */
     public function search($params)
     {
-        $query = Category::find()
+        $query = PostTag::find()
             ->innerJoin(['tax' => TermTaxonomy::tableName()], 'terms.term_id = tax.term_id');
 
         $query->andFilterWhere([
-            'taxonomy' => 'category'
+            'taxonomy' => 'post-tag'
         ]);
 
         // add conditions that should always apply here
