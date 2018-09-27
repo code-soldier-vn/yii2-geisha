@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Terms;
 use backend\models\TermTaxonomy;
 use Yii;
 use backend\models\PostTag;
@@ -75,8 +76,8 @@ class PostTagController extends Controller
         $tag = new PostTag();
         $taxonomy = new TermTaxonomy();
 
-        if ($tag->load(Yii::$app->request->post()) && $tag->save()) {
-            return $this->redirect(['view', 'id' => $tag->term_id]);
+        if ($response = $this->save($tag, $taxonomy)) {
+            return $response;
         }
 
         return $this->render('create', [
@@ -94,14 +95,16 @@ class PostTagController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $tag = $this->findModel($id);
+        $taxonomy = TermTaxonomy::findOne(['term_id' => $id]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->term_id]);
+        if ($response = $this->save($tag, $taxonomy)) {
+            return $response;
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'tag' => $tag,
+            'taxonomy' => $taxonomy,
         ]);
     }
 
@@ -116,7 +119,13 @@ class PostTagController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $tag = $this->findModel($id);
+        $taxonomy = TermTaxonomy::findOne(['term_id' => $id]);
+
+        if ($tag && $taxonomy) {
+            $tag->delete();
+            $taxonomy->delete();
+        }
 
         return $this->redirect(['index']);
     }
@@ -135,5 +144,22 @@ class PostTagController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    protected function save(Terms $terms, TermTaxonomy $taxonomy)
+    {
+
+        if ($terms->load(Yii::$app->request->post()) && $terms->save()) {
+
+            $taxonomy->load(Yii::$app->request->post());
+            $taxonomy->term_id = $taxonomy->term_id ? $taxonomy->term_id : $terms->term_id;
+            $taxonomy->taxonomy = 'post-tag';
+
+            $taxonomy->save();
+
+            return $this->redirect(['view', 'id' => $terms->term_id]);
+        }
+
+        return false;
     }
 }

@@ -164,7 +164,7 @@ class CategoryController extends Controller
 
             $taxonomy->load(Yii::$app->request->post());
             $taxonomy->term_id = $taxonomy->term_id ? $taxonomy->term_id : $terms->term_id;
-            $taxonomy->taxonomy = $taxonomy->taxonomy ? $taxonomy->taxonomy : 'category';
+            $taxonomy->taxonomy = 'category';
 
             if ($isUpdating) {
                 if ($oldParentId && $oldParentId != $taxonomy->parent) {

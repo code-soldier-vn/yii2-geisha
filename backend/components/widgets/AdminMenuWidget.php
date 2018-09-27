@@ -40,6 +40,7 @@ class AdminMenuWidget extends Widget
             'site' => ['icon' => 'fa fa-home fa-fw', 'label' => \Yii::t('app', 'Dashboard')],
             'posts' => ['icon' => 'fa fa-pencil-square-o fa-fw', 'label' => \Yii::t('app', 'Posts')],
             'category' => ['icon' => 'fa fa-archive fa-fw', 'label' => \Yii::t('app', 'Category')],
+            'post-tag' => ['icon' => 'fa fa-tags fa-fw', 'label' => \Yii::t('app', 'Tags')],
             'comments' => ['icon' => 'fa fa-comments fa-fw', 'label' => \Yii::t('app', 'Comments')],
             'options' => ['icon' => 'fa fa-cog fa-fw', 'label' => \Yii::t('app', 'Options')],
 
